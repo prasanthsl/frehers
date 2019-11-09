@@ -1,0 +1,30 @@
+import os
+import sys
+import json
+ans = {}
+lis = []
+path = input("Enter the path ")
+input_name = input("Enter the Input name")
+output_name = input("Enter the name to store the result")
+size = int(input("Enter the maximum size"))
+length = len(input_name)
+for file in os.listdir(path):
+    if (file[0:length] == input_name):
+        with open(path+file) as op_file:
+            jsonfile = json.load(op_file)
+            lis.append(jsonfile)
+for file in lis:
+    for i in file.keys():
+        if i not in ans.keys():
+            ans[i] = []
+            for j in file[i]:
+                ans[i].append(j)
+        else:
+            for j in file[i]:
+                ans[i].append(j)
+    if (sys.getsizeof(ans) > size):
+        print("The maximum limit exceeds")
+        break
+print(ans)
+with open(path + output_name + ".json", 'w+') as res:
+    json.dump(ans,res)
